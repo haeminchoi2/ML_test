@@ -13,11 +13,17 @@ print(results.pandas().xyxy[0])
 result = results.pandas().xyxy[0].to_numpy() # 판다스 dataframe을 numpy로 변환
 
 result = [item for item in result if item[6]=='person'] # person인 데이터만 추출
-for person in results:
-    print(person)
-    # x_min = person[0]
-    # y_min = person[1]
-    # x_max = person[2]
-    # y_max = person[3]
-#     cv2.rectangle(tmp_img, (x_min, x_max), (y_min, y_max), (255, 255, 255))
-# cv2.imwrite('result1.png', tmp_img)
+print(result)
+for i, person in enumerate(result):
+    i += 1
+    x_min = int(person[0])
+    y_min = int(person[1])
+    x_max = int(person[2])
+    y_max = int(person[3])
+    
+    cropped = tmp_img[y_min:y_max, x_min:x_max]
+    cv2.imwrite(f'people{i}.png', cropped)
+    
+    cv2.rectangle(tmp_img, (x_min, y_min), (x_max, y_max), (255, 255, 255))
+
+cv2.imwrite('result1.png', tmp_img)
